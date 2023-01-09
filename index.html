@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Pibes hot contador de pajas</title>
+</head>
+
+<body>
+    <div class="title">
+        <h1>Contador de pajas</h1>
+        <h4>Pajas totales: </h4>
+        <h4>0</h4>
+    </div>
+    <div class="cards">
+        <div class="card">
+            <h4 id="cristian"></h4>
+            <button onclick="agregarPaja('Cristhian')">+</button>
+            <p id="cristianpajas">0</p>
+        </div>
+        <div class="card">
+            <h4 id="emer"></h4>
+            <button onclick="agregarPaja('Emer')">+</button>
+            <p id="emerpajas">0</p>
+        </div>
+        <div class="card">
+            <h4 id="jp"></h4>
+            <button onclick="agregarPaja('JP')">+</button>
+            <p id="jppajas">0</p>
+        </div>
+        <div class="card">
+            <h4 id="juanca"></h4>
+            <button onclick="agregarPaja('Juanca')">+</button>
+            <p id="juancapajas">0</p>
+        </div>
+        <div class="card">
+            <h4 id="chucho"></h4>
+            <button onclick="agregarPaja('Chucho')">+</button>
+            <p id="chuchopajas">0</p>
+        </div>
+        <div class="card">
+            <h4 id="coste"></h4>
+            <button onclick="agregarPaja('Coste')">+</button>
+            <p id="costepajas">0</p>
+        </div>
+    </div>
+</body>
+<script>
+    function agregarPaja(nombre) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("PUT", `https://pajteam-production.up.railway.app/v1/pajeros/${nombre}`);
+        xhr.send();
+        xhr.responseType = "json";
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                getAll();
+            } else {
+                console.log(`Error: ${xhr.status}`);
+            }
+        }
+    }
+
+    function getAll() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://pajteam-production.up.railway.app/v1/pajeros/all");
+        xhr.send();
+        xhr.responseType = "json";
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                const data = xhr.response;
+                const emer = data[0];
+                const cristhian = data[1];
+                const chucho = data[2];
+                const juanca = data[3];
+                const jp = data[4];
+                const coste = data[5];
+
+                const emerClass = document.getElementById("emer");
+                const emerPajas = document.getElementById("emerpajas");
+                const cristianClass = document.getElementById("cristian");
+                const cristianPajas = document.getElementById("cristianpajas");
+                const chuchoClass = document.getElementById("chucho");
+                const chuchoPajas = document.getElementById("chuchopajas");
+                const costeClass = document.getElementById("coste");
+                const costePajas = document.getElementById("costepajas");
+                const jpClass = document.getElementById("jp");
+                const jpPajas = document.getElementById("jppajas");
+                const juancaClass = document.getElementById("juanca");
+                const juancaPajas = document.getElementById("juancapajas");
+                emerClass.innerHTML = emer.usuario;
+                emerPajas.innerHTML = emer.pajas;
+                cristianClass.innerHTML = cristhian.usuario;
+                cristianPajas.innerHTML = cristhian.pajas;
+                chuchoClass.innerHTML = chucho.usuario;
+                chuchoPajas.innerHTML = chucho.pajas;
+                costeClass.innerHTML = coste.usuario;
+                costePajas.innerHTML = coste.pajas;
+                jpClass.innerHTML = jp.usuario;
+                jpPajas.innerHTML = jp.pajas;
+                juancaClass.innerHTML = juanca.usuario;
+                juancaPajas.innerHTML = juanca.pajas;
+            } else {
+                console.log(`Error: ${xhr.status}`);
+            }
+        }
+    }
+
+    window.addEventListener('load', function () {
+        getAll();
+    });
+</script>
+
+</html>
