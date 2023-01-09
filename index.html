@@ -13,7 +13,7 @@
     <div class="title">
         <h1>Contador de pajas</h1>
         <h4>Pajas totales: </h4>
-        <h4>0</h4>
+        <h4 id="pajitas">0</h4>
     </div>
     <div class="cards">
         <div class="card">
@@ -102,6 +102,24 @@
                 jpPajas.innerHTML = jp.pajas;
                 juancaClass.innerHTML = juanca.usuario;
                 juancaPajas.innerHTML = juanca.pajas;
+            } else {
+                console.log(`Error: ${xhr.status}`);
+            }
+        }
+
+        counter();
+    }
+
+    function counter() {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://pajteam-production.up.railway.app/v1/pajeros/count");
+        xhr.send();
+        xhr.responseType = "json";
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                const data = xhr.response;
+                const pajastotales = document.getElementById('pajitas');
+                pajastotales.innerHTML = data;
             } else {
                 console.log(`Error: ${xhr.status}`);
             }
