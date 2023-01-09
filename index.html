@@ -23,7 +23,7 @@
         </div>
         <div class="card">
             <h4 id="emer"></h4>
-            <button onclick="agregarPaja('Emer')">+</button>
+            <button onclick="agregarPaja('Emer')" onmousedown="sonido.play()">+</button>
             <p id="emerpajas">0</p>
         </div>
         <div class="card">
@@ -49,6 +49,7 @@
     </div>
 </body>
 <script>
+    var mecorro = new Audio('/pajfront/mecorro.mp3');
     function agregarPaja(nombre) {
         const xhr = new XMLHttpRequest();
         xhr.open("PUT", `https://pajteam-production.up.railway.app/v1/pajeros/${nombre}`);
@@ -61,6 +62,7 @@
                 console.log(`Error: ${xhr.status}`);
             }
         }
+        mecorro.play();
     }
 
     function getAll() {
